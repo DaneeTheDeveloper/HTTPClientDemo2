@@ -1,0 +1,56 @@
+﻿@page "/dictionary"
+
+@using HTTPClientDemo2.Data
+
+@inject DictionaryService DictionaryPage
+
+<h1>Dictionary</h1>
+
+<input @bind="wordToDefine" placeholder="Expand your vocabulary!" />
+
+<button class="btn btn-primary" @onclick="WordLookUp">Search Word</button>
+
+@if (definitions == null)
+{
+    <p><em>  </em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Word</th>
+                <th>Results</th>
+                <th>Syllables</th>
+                <th>Pronunciation</th>
+                <th>Frequency</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var definition in definitions.results)
+            {
+                <tr>
+
+                    <td>@definition</td>
+                    
+
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    string wordToDefine;
+    private DefinitionResult definitions;
+
+    protected async Task WordLookUp()
+    {
+        DefinitionResult definitions = await DictionaryPage.GetDefinitionAsync(wordToDefine);
+    }
+
+}
